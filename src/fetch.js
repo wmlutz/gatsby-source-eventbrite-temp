@@ -20,7 +20,7 @@ async function fetch({ organizationId, accessToken, entity }) {
 
   while (continueFetching) {
     try{
-      const result = await axios({
+      let result = await axios({
         method: `get`,
         headers: {
           'User-Agent':
@@ -28,6 +28,28 @@ async function fetch({ organizationId, accessToken, entity }) {
         },
         url: `https://www.eventbriteapi.com/v3/organizations/${organizationId}/${entity}?token=${accessToken}&page=${page}`,
       });
+
+      // only if we're looking at event entites
+      if (entity === 'events') { 
+        // for each event
+        result.data['events'].forEach(res => {
+          let eventId = res.id;
+          try {
+            const descrResult = await axios({ // fetch full description
+              method: `get`,
+              headers: {
+                'User-Agent':
+                  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10.12; rv:51.0) Gecko/20100101 Firefox/51.0',
+              },
+              url: `https://www.eventbriteapi.com/v3/events/${eventId}/description?token=${accessToken}`,
+            });
+      
+            result.data['events'][res].description = descrResult.description; // and place in results
+          } catch(e) {
+            httpExceptionHandler(e);
+          }
+        })
+      }
 
       fetchResults[entity] = fetchResults[entity].concat(result.data[entity]);
       

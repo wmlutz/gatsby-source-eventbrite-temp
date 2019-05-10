@@ -1,4 +1,8 @@
 
+# Note about this plugin
+
+This is meant as a temporary fix while the Eventbrite API doesn't match the Create UI on the site. Recommend that you go back to the original gatsby-source-eventbrite if using this temporarily.
+
 # gatsby-source-eventbrite
 
 [![Greenkeeper badge](https://badges.greenkeeper.io/GatsbyCentral/gatsby-source-eventbrite.svg)](https://greenkeeper.io/)
@@ -11,7 +15,7 @@ Works with Eventbrite's API v3.
 
 ## Install
 
-`npm install --save gatsby-source-eventbrite`
+`npm install --save gatsby-source-eventbrite-v2`
 
 ## How to use
 
